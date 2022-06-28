@@ -1,10 +1,13 @@
 <template>
   <m-header></m-header>
+  <tab></tab>
+  <router-view></router-view>
 </template>
 
 <script>
 import MHeader from '@/components/header/header'
+import Tab from '@/components/tab/tab.vue'
 export default {
-  components: { MHeader }
+  components: { MHeader, Tab }
 }
 </script>
