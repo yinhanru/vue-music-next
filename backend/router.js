@@ -3,6 +3,7 @@
  * 对于从第三方接口返回的数据，我们会做一层数据处理，最终提供给前端的数据前端可以直接使用，无需再处理。这样也比较符合真实企业项目的开发规范，即数据的处理放在后端做，前端只做数据渲染和交互。
  */
 const axios = require('axios')
+const pinyin = require('pinyin')
 // 获取签名方法
 const getSecuritySign = require('./sign')
 
@@ -105,7 +106,7 @@ function mergeSinger(singer) {
 function registerRouter(devServer) {
   registerRecommend(devServer)
 
-  // registerSingerList(devServer)
+  registerSingerList(devServer)
 
   // registerSingerDetail(devServer)
 
@@ -244,6 +245,26 @@ function registerSingerList(devServer) {
             list: map(singerList.slice(0, 10))
           }
         }
+        singerList.forEach((item) => {
+          // 把歌手名转成拼音
+          const p = pinyin(item.singer_name)
+          if (!p || !p.length) {
+            return
+          }
+          // 获取歌手名拼音的首字母
+          const key = p[0][0].slice(0, 1).toUpperCase()
+          if (key) {
+            if (!singerMap[key]) {
+              singerMap[key] = {
+                title: key,
+                list: []
+              }
+            }
+            // 每个字母下面会有多名歌手
+            singerMap[key].list.push(map([item])[0])
+          }
+        })
+
 
         // 热门歌手
         const hot = []
