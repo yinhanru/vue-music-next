@@ -1,7 +1,7 @@
 <template>
   <div class="recommend" v-loading:[loadingText]="loading">
-    <scroll-page>
-      <div class="recommend-content">
+    <scroll-page class="recommend-content">
+      <div>
         <slider-page v-if="sliders.length" :sliders = sliders></slider-page>
         <div class="recommend-list">
           <h1 class="list-title" v-show="!loading">热门歌单推荐</h1>
@@ -65,7 +65,6 @@ export default {
   width: 100%;
   top: 88px;
   bottom: 0;
-  overflow: scroll;
 
   .recommend-content {
     height: 100%;

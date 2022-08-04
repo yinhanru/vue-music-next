@@ -9,7 +9,6 @@ const loadingDirective = {
     const app = createApp(Loading)
     const instance = app.mount(document.createElement('div'))
     el.instance = instance
-    debugger
     const title = binding.arg
     if (typeof title !== 'undefined') {
       instance.setTitle(title)

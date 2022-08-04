@@ -212,7 +212,7 @@ function registerRecommend(devServer) {
 
 // 注册歌手列表接口路由
 function registerSingerList(devServer) {
-  devServer.get('/api/getSingerList', (req, res) => {
+  devServer.app.get('/api/getSingerList', (req, res) => {
     const url = 'https://u.y.qq.com/cgi-bin/musics.fcg'
     const HOT_NAME = '热'
 
@@ -245,6 +245,7 @@ function registerSingerList(devServer) {
             list: map(singerList.slice(0, 10))
           }
         }
+
         singerList.forEach((item) => {
           // 把歌手名转成拼音
           const p = pinyin(item.singer_name)
@@ -264,7 +265,6 @@ function registerSingerList(devServer) {
             singerMap[key].list.push(map([item])[0])
           }
         })
-
 
         // 热门歌手
         const hot = []
@@ -312,7 +312,7 @@ function registerSingerList(devServer) {
 
 // 注册歌手详情接口路由
 function registerSingerDetail(devServer) {
-  devServer.get('/api/getSingerDetail', (req, res) => {
+  devServer.app.get('/api/getSingerDetail', (req, res) => {
     const url = 'https://u.y.qq.com/cgi-bin/musics.fcg'
 
     const data = JSON.stringify({
@@ -354,7 +354,7 @@ function registerSingerDetail(devServer) {
 // 注册歌曲 url 获取接口路由
 // 因为歌曲的 url 每天都在变化，所以需要单独的接口根据歌曲的 mid 获取
 function registerSongsUrl(devServer) {
-  devServer.get('/api/getSongsUrl', (req, res) => {
+  devServer.app.get('/api/getSongsUrl', (req, res) => {
     const mid = req.query.mid
 
     let midGroup = []
@@ -433,7 +433,7 @@ function registerSongsUrl(devServer) {
 
 // 注册歌词接口
 // function registerLyric(devServer) {
-//   devServer.get('/api/getLyric', (req, res) => {
+//   devServer.app.get('/api/getLyric', (req, res) => {
 //     const url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
 
 //     get(url, {
@@ -459,7 +459,7 @@ function registerSongsUrl(devServer) {
 
 // 注册歌单专辑接口
 function registerAlbum(devServer) {
-  devServer.get('/api/getAlbum', (req, res) => {
+  devServer.app.get('/api/getAlbum', (req, res) => {
     const data = {
       req_0: {
         module: 'srf_diss_info.DissInfoServer',
@@ -504,7 +504,7 @@ function registerAlbum(devServer) {
 
 // 注册排行榜接口
 function registerTopList(devServer) {
-  devServer.get('/api/getTopList', (req, res) => {
+  devServer.app.get('/api/getTopList', (req, res) => {
     const url = 'https://u.y.qq.com/cgi-bin/musics.fcg'
 
     const data = JSON.stringify({
@@ -558,7 +558,7 @@ function registerTopList(devServer) {
 
 // 注册排行榜详情接口
 function registerTopDetail(devServer) {
-  devServer.get('/api/getTopDetail', (req, res) => {
+  devServer.app.get('/api/getTopDetail', (req, res) => {
     const url = 'https://u.y.qq.com/cgi-bin/musics.fcg'
     const { id, period } = req.query
 
@@ -607,7 +607,7 @@ function registerTopDetail(devServer) {
 
 // 注册热门搜索接口
 function registerHotKeys(devServer) {
-  devServer.get('/api/getHotKeys', (req, res) => {
+  devServer.app.get('/api/getHotKeys', (req, res) => {
     const url = 'https://c.y.qq.com/splcloud/fcgi-bin/gethotkey.fcg'
 
     get(url, {
@@ -635,7 +635,7 @@ function registerHotKeys(devServer) {
 
 // 注册搜索查询接口
 function registerSearch(devServer) {
-  devServer.get('/api/search', (req, res) => {
+  devServer.app.get('/api/search', (req, res) => {
     const url = 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp'
 
     const { query, page, showSinger } = req.query
