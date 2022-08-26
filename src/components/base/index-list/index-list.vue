@@ -1,5 +1,5 @@
 <template>
-  <scroll-page class="index-list" :probe-type="3" @scroll="onScroll">
+  <scroll-page class="index-list" :probe-type="3" @scroll="onScroll" ref="scrollRef">
     <ul ref="groupRef">
       <li
         v-for="group in data"
@@ -20,8 +20,24 @@
 
       </li>
     </ul>
-    <div class="fixed" v-show="fixedTitle">
+    <div class="fixed" v-show="fixedTitle" :style="fixedStyle">
       <div class="fixed-title">{{fixedTitle}}</div>
+    </div>
+    <div  class="shortcut"
+          @touchstart.stop.prevent="onShortcutTouchStart"
+          @touchmove.stop.prevent="onShortcutTouchMove"
+          @touchend.stop.prevent>
+      <ul>
+        <li
+          v-for="(item, index) in shortcutList"
+          :key="item"
+          :data-index="index"
+          class="item"
+          :class="{'current':currentIndex===index}"
+        >
+        {{item}}
+        </li>
+      </ul>
     </div>
   </scroll-page>
 </template>
@@ -29,6 +45,7 @@
 
 import ScrollPage from '@/components/base/scroll/scroll.vue'
 import useFixed from './use-fixed'
+import useShortcut from './use-shortcut'
 
 export default {
   name: 'indexList',
@@ -48,11 +65,18 @@ export default {
     }
   },
   setup(props) {
-    const { groupRef, onScroll, fixedTitle } = useFixed(props)
+    const { groupRef, onScroll, fixedTitle, fixedStyle, currentIndex } = useFixed(props)
+    const { shortcutList, onShortcutTouchStart, scrollRef, onShortcutTouchMove } = useShortcut(props, groupRef)
     return {
       groupRef,
       onScroll,
-      fixedTitle
+      fixedTitle,
+      fixedStyle,
+      shortcutList,
+      currentIndex,
+      onShortcutTouchStart,
+      scrollRef,
+      onShortcutTouchMove
     }
   }
 }
